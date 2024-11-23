@@ -1,15 +1,17 @@
 package com.example.autoparts.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.List;
 
 @Entity
+@Data
 public class Bonus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bonusId;
-
     private int bonusPoints;
 
     @OneToOne
@@ -18,6 +20,4 @@ public class Bonus {
 
     @OneToMany(mappedBy = "bonus", cascade = CascadeType.ALL)
     private List<Notification> notifications;
-
-    // Геттеры и сеттеры
 }
