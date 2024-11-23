@@ -1,5 +1,6 @@
 package com.example.autoparts.advice;
 
+import com.example.autoparts.advice.exception.AutoPartNotFoundException;
 import com.example.autoparts.advice.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleNullPointerException(UserNotFoundException ex) {
         return new ResponseEntity<>("Пользовтель не найден с id: " + ex.getId(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AutoPartNotFoundException.class)
+    public ResponseEntity<?> handleNullPointerException(AutoPartNotFoundException ex) {
+        return new ResponseEntity<>("Деталь не найдена с id: " + ex.getId(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)

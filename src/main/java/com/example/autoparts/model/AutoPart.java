@@ -3,16 +3,14 @@ package com.example.autoparts.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Entity
 @Data
 @Table(name = "auto_part")
 public class AutoPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partId;
-    private String partName;
+    private Long id;
+    private String name;
     private String description;
     private Double price;
     private Integer stockQuantity;

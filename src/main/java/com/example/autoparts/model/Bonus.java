@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Data
 public class Bonus {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bonusId;
