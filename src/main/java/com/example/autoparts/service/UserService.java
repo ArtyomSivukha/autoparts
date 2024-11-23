@@ -4,6 +4,7 @@ import com.example.autoparts.advice.exception.UserNotFoundException;
 import com.example.autoparts.auth.jwt.JwtUtil;
 import com.example.autoparts.controller.utils.UsersUtil;
 import com.example.autoparts.model.User;
+import com.example.autoparts.model.enums.Role;
 import com.example.autoparts.repository.UserRepository;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,22 @@ public class UserService implements UserDetailsService {
             throw new UserNotFoundException(-1L);
         }
         return user;
+    }
+
+
+    public void updateUserRole(Long userId, String roleName) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+
+        Role role;
+        try {
+            role = Role.valueOf(roleName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + roleName);
+        }
+
+        user.setRole(role);
+        userRepository.save(user);
     }
 
     @Override
