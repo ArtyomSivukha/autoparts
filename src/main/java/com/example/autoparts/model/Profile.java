@@ -1,5 +1,6 @@
 package com.example.autoparts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -15,7 +16,8 @@ public class Profile {
     private String phoneNumber;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore // Исключаем поле из сериализации
     private User user;
 
     public Profile() {

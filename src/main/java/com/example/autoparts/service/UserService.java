@@ -1,6 +1,7 @@
 package com.example.autoparts.service;
 
 import com.example.autoparts.auth.jwt.JwtUtil;
+import com.example.autoparts.controller.utils.UsersUtil;
 import com.example.autoparts.model.User;
 import com.example.autoparts.model.enums.Role;
 import com.example.autoparts.repository.UserRepository;
@@ -31,6 +32,11 @@ public class UserService implements UserDetailsService {
         this.jwtUtil = jwtUtil;
     }
 
+
+    public User getCurrentUser() {
+        String email = UsersUtil.getCurrentUserEmail();
+        return userRepository.findByEmail(email);
+    }
 
 
     public List<User> getAllUsers() {
