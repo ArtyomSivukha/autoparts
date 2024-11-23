@@ -32,8 +32,8 @@ public class SecurityConfig {
                 .httpBasic(x -> x.disable())
                 .cors(x -> x.disable())
                 .authorizeHttpRequests(x -> {
-                    x.requestMatchers(new AdminRequestMatcher()).hasAuthority(Role.ADMIN.name());
-                    x.requestMatchers(new CustomerRequestMatcher()).hasAnyAuthority(Role.ADMIN.name(), Role.CLIENT.name(), Role.SUPPLIER.name());
+//                    x.requestMatchers(new AdminRequestMatcher()).hasAuthority(Role.ADMIN.name());
+//                    x.requestMatchers(new CustomerRequestMatcher()).hasAnyAuthority(Role.ADMIN.name(), Role.CLIENT.name(), Role.SUPPLIER.name());
                     x.requestMatchers("/**").permitAll();
                 })
                 .userDetailsService(this.userService)
