@@ -18,6 +18,6 @@ public class Profile {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // Исключаем поле из сериализации
+    @JsonIgnore
     private User user;
 }
