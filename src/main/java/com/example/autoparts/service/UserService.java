@@ -53,10 +53,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Long deleteById(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    public User deleteById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
-        return id;
+        return user;
     }
 
     public User getCurrent() {
