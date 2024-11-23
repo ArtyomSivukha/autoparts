@@ -2,46 +2,43 @@ package com.example.autoparts.controller;
 
 import com.example.autoparts.model.User;
 import com.example.autoparts.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
-
 import java.util.List;
-import java.util.Map;
 
 @RestController
+@Data
 @RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);  // Выбросит исключение, если пользователь не найден
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    @PostMapping("/register")
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);  // Выбросит исключение, если пользователь не найден
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.deleteById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<?> getCurrent() {
+        return new ResponseEntity<>(userService.getCurrent(), HttpStatus.OK);
     }
 }
