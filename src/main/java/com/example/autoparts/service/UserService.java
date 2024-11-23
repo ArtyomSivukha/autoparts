@@ -46,8 +46,8 @@ public class UserService implements UserDetailsService {
         return this.jwtUtil.generateToken(user.getEmail(), user.getRole());
     }
 
-    public User findByEmail(String username) {
-        return userRepository.findByEmail(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public User saveUser(User user) {

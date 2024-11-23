@@ -14,6 +14,7 @@ public class AutoPart {
     private String description;
     private Double price;
     private Integer stockQuantity;
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

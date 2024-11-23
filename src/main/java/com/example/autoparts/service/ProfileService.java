@@ -2,6 +2,7 @@ package com.example.autoparts.service;
 
 import com.example.autoparts.model.Profile;
 import com.example.autoparts.repository.ProfileRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,11 @@ import com.example.autoparts.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Data
 @Service
 public class ProfileService {
-
     private final ProfileRepository profileRepository;
     private final UserService userService;
-
-    @Autowired
-    public ProfileService(ProfileRepository profileRepository, UserService userService) {
-        this.profileRepository = profileRepository;
-        this.userService = userService;
-    }
 
     public Profile getCurrentUserProfile() {
         // Получаем текущего пользователя
@@ -66,7 +61,6 @@ public class ProfileService {
         // Сохраняем обновлённый профиль
         return profileRepository.save(profile);
     }
-
 
 
     // Создание профиля для нового пользователя

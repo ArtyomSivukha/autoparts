@@ -10,8 +10,8 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
-    private String categoryName;
+    private Long id;
+    private String name;
 
     @OneToMany(mappedBy = "category")
     private List<AutoPart> subcategories;

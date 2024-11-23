@@ -3,20 +3,16 @@ package com.example.autoparts.service;
 import com.example.autoparts.model.Cart;
 import com.example.autoparts.model.CartItem;
 import com.example.autoparts.repository.CartRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Data
 public class CartService {
-
     private final CartRepository cartRepository;
-
-    @Autowired
-    public CartService(CartRepository cartRepository) {
-        this.cartRepository = cartRepository;
-    }
 
     public Optional<Cart> getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
