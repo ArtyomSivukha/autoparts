@@ -30,7 +30,7 @@ public class User {
     private List<Order> orders;
 
     @OneToOne (mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Cart cart;
+    private Cart cart = new Cart();
 
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
