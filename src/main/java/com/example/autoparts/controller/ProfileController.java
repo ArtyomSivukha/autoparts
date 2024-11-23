@@ -5,21 +5,19 @@ import com.example.autoparts.model.Profile;
 import com.example.autoparts.model.User;
 import com.example.autoparts.service.ProfileService;
 import com.example.autoparts.service.UserService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Data
 @RestController
 @RequestMapping("api/profile")
 public class ProfileController {
 
     private final ProfileService profileService;
 
-    @Autowired
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
 
     @GetMapping("me")
     public ResponseEntity<Profile> getProfile() {
