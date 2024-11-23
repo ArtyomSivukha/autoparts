@@ -35,7 +35,17 @@ public class AutoPartController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> editById(@PathVariable Long id, @RequestBody AutoPart autoPartToChange){
+    public ResponseEntity<?> editById(@PathVariable Long id, @RequestBody AutoPart autoPartToChange) {
         return new ResponseEntity<>(autoPartService.editById(autoPartToChange, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/current/all")
+    public ResponseEntity<?> getPartsFromCurrentUser() {
+        return new ResponseEntity<>(autoPartService.getPartsFromCurrentUser(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{supplierId}/all")
+    public ResponseEntity<?> getPartsPartsBySupplierId(@PathVariable Long supplierId) {
+        return new ResponseEntity<>(autoPartService.getPartsBySupplierId(supplierId), HttpStatus.OK);
     }
 }

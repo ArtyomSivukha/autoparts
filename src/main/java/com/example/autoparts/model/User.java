@@ -1,9 +1,11 @@
 package com.example.autoparts.model;
 
 import com.example.autoparts.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,4 +31,8 @@ public class User {
 
     @OneToOne (mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Cart cart;
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<AutoPart> suppliedParts = new ArrayList<>();
 }
