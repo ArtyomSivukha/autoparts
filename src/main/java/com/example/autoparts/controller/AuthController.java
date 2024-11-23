@@ -3,12 +3,13 @@ package com.example.autoparts.controller;
 import com.example.autoparts.controller.contract.LoginRequest;
 import com.example.autoparts.controller.contract.LoginResponse;
 import com.example.autoparts.controller.utils.UsersUtil;
+import com.example.autoparts.model.Profile;
 import com.example.autoparts.model.User;
 import com.example.autoparts.model.enums.Role;
+import com.example.autoparts.service.ProfileService;
 import com.example.autoparts.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
+    private final ProfileService profileService;
 
-//    private final CustomerService customerService;
-
-    public AuthController(UserService userService) {
+    @Autowired
+    public AuthController(UserService userService, ProfileService profileService) {
         this.userService = userService;
+        this.profileService = profileService;
     }
+
+    //    private final CustomerService customerService;
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -34,7 +38,15 @@ public class AuthController {
     @PostMapping("sign-up")
     public ResponseEntity<?> signUp(@RequestBody User user) {
         user.setRole(Role.CLIENT);
-        userService.saveUser(user);
+
+
+        // Сохранение пользователя
+        User savedUser = userService.saveUser(user);
+
+        // Создание профиля для нового пользователя
+        profileService.createProfileForUser(savedUser);
+
+//        userService.saveUser(user);
         return login(new LoginRequest(user.getEmail(),user.getPassword()));
     }
 
@@ -43,6 +55,8 @@ public class AuthController {
         String customerEmail = UsersUtil.getCurrentUserEmail();
         User user = userService.findByEmail(customerEmail);
 //        boolean isAdmin = UsersUtil.getCurrentUserRole() == Role.ADMIN;
+
+        profileService.ensureProfileForUser(user);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

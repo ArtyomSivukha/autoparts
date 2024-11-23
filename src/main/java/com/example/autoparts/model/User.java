@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Profile profile;
 
     @OneToMany(mappedBy = "user")
