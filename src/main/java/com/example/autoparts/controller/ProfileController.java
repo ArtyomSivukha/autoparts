@@ -23,16 +23,12 @@ public class ProfileController {
 
     @GetMapping("me")
     public ResponseEntity<Profile> getProfile() {
-        // Просто вызываем метод сервиса для получения профиля
-        Profile profile = profileService.getCurrentUserProfile();
-        return ResponseEntity.ok(profile);
+        return new ResponseEntity<>(profileService.getCurrentUserProfile(), HttpStatus.OK);
     }
 
     @PatchMapping("me")
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile updatedProfile) {
-        // Просто вызываем метод сервиса для обновления профиля
-        Profile updated = profileService.updateCurrentUserProfile(updatedProfile);
-        return ResponseEntity.ok(updated);
+        return new ResponseEntity<>(profileService.updateCurrentUserProfile(updatedProfile), HttpStatus.OK);
     }
 }
 
