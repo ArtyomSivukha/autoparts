@@ -1,16 +1,19 @@
 package com.example.autoparts.service;
 
+import com.example.autoparts.advice.exception.UserNotFoundException;
 import com.example.autoparts.auth.jwt.JwtUtil;
+import com.example.autoparts.controller.utils.UsersUtil;
 import com.example.autoparts.model.User;
-import com.example.autoparts.model.enums.Role;
 import com.example.autoparts.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,32 +22,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Data
 public class UserService implements UserDetailsService {
-
-
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-
-    @Autowired
-    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-    }
-
-
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     public User getUserById(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            throw new RuntimeException("User with ID " + id + " not found");
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         return user;
     }
-
 
     public String getTokenByCredentials(String email, String password) {
         User user = this.findByEmail(email);
@@ -55,7 +45,6 @@ public class UserService implements UserDetailsService {
         return this.jwtUtil.generateToken(user.getEmail(), user.getRole());
     }
 
-
     public User findByEmail(String username) {
         return userRepository.findByEmail(username);
     }
@@ -64,11 +53,19 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User with ID " + id + " not found");
-        }
+    public Long deleteById(Long id) {
+        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.deleteById(id);
+        return id;
+    }
+
+    public User getCurrent() {
+        String customerEmail = UsersUtil.getCurrentUserEmail();
+        User user = findByEmail(customerEmail);
+        if (user == null) {
+            throw new UserNotFoundException(-1L);
+        }
+        return user;
     }
 
     @Override
