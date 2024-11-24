@@ -2,7 +2,8 @@ package com.example.autoparts.controller;
 
 import com.example.autoparts.model.Order;
 import com.example.autoparts.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,30 +11,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Data
 @RequestMapping("/api/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return new ResponseEntity<>(orderService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    @GetMapping("/current")
+    public ResponseEntity<?> getAllCurrent() {
+        return new ResponseEntity<>(orderService.getAllCurrent(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = orderService.getOrderById(id);
-        return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<Order> getOrdersByUserId(@PathVariable Long userId) {
-        return orderService.getOrdersByUserId(userId);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -41,19 +37,4 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
-        try {
-            Order updatedOrder = orderService.updateOrder(id, orderDetails);
-            return ResponseEntity.ok(updatedOrder);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
-    }
 }
