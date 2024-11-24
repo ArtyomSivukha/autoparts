@@ -5,6 +5,7 @@ import com.example.autoparts.model.Cart;
 import com.example.autoparts.model.Order;
 import com.example.autoparts.model.enums.OrderStatus;
 import com.example.autoparts.repository.OrderRepository;
+import com.example.autoparts.repository.UserRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public List<Order> getAll() {
         return orderRepository.findAll();
@@ -39,7 +41,7 @@ public class OrderService {
         order.setCartItems(cart.getItems());
         order.setTotalCost(cart.getTotalCost());
         userService.getCurrent().getOrders().add(order);
-        return userService.getCurrent().getOrders().getFirst();
+        return userRepository.save(userService.getCurrent()).getOrders().getFirst();
     }
 
 }
