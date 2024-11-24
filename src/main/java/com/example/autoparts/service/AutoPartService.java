@@ -25,11 +25,11 @@ public class AutoPartService {
         return autoPartRepository.findById(id).orElseThrow(() -> new AutoPartNotFoundException(id));
     }
 
-    public AutoPart create(AutoPart autoPart) {
+    public List<AutoPart> create(AutoPart autoPart) {
         User user = userRepository.findByEmail(userService.getCurrent().getEmail());
         autoPart.setSupplier(user);
         user.getSuppliedParts().add(autoPart);
-        return userRepository.save(user).getSuppliedParts().getFirst();
+        return userRepository.save(user).getSuppliedParts();
     }
 
     public List<?> getPartsFromCurrentUser(){
@@ -64,6 +64,6 @@ public class AutoPartService {
             preChangeAutoPart.setCategory(autoPartChanged.getCategory());
         }
 
-        return preChangeAutoPart;
+        return autoPartRepository.save(preChangeAutoPart);
     }
 }
