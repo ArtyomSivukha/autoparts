@@ -1,33 +1,31 @@
 package com.example.autoparts.service;
 
+import com.example.autoparts.advice.exception.OrderNotFoundException;
 import com.example.autoparts.model.Order;
 import com.example.autoparts.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Data
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final UserService userService;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
-
-    public List<Order> getAllOrders() {
+    public List<Order> getAll() {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
+    public List<Order> getAllCurrent(){
+        return userService.getCurrent().getOrders();
     }
 
-    public List<Order> getOrdersByUserId(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public Order getById(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     public Order createOrder(Order order) {
@@ -44,9 +42,5 @@ public class OrderService {
             order.setNotifications(orderDetails.getNotifications());
             return orderRepository.save(order);
         }).orElseThrow(() -> new RuntimeException("Order not found"));
-    }
-
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
     }
 }
