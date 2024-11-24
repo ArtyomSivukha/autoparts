@@ -1,5 +1,6 @@
 package com.example.autoparts.controller;
 
+import com.example.autoparts.model.Cart;
 import com.example.autoparts.model.Order;
 import com.example.autoparts.service.OrderService;
 import lombok.Data;
@@ -32,9 +33,9 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+    @PostMapping("/create")
+    public ResponseEntity<?> createOrder(@RequestBody Cart cart) {
+        return new ResponseEntity<>(orderService.createOrder(cart), HttpStatus.OK);
     }
 
 }

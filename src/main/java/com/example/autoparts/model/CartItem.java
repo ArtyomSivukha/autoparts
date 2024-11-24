@@ -12,7 +12,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
     private int quantity;
-    private BigDecimal price;
+    private Float price;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
