@@ -34,8 +34,8 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOrder(@RequestBody Cart cart) {
-        return new ResponseEntity<>(orderService.createOrder(cart), HttpStatus.OK);
+    public ResponseEntity<?> createOrder() {
+        return new ResponseEntity<>(orderService.createOrder(), HttpStatus.OK);
     }
 
 }

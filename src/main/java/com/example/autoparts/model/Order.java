@@ -3,6 +3,7 @@ package com.example.autoparts.model;
 import com.example.autoparts.model.enums.DeliveryStatus;
 import com.example.autoparts.model.enums.OrderStatus;
 import com.example.autoparts.model.enums.PaymentMethod;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
