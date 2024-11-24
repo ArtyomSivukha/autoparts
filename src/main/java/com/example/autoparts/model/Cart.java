@@ -13,6 +13,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Float totalCost = 0f;
+
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore

@@ -34,7 +34,8 @@ public class CartService {
         cartItem.setCart(cart);
         cartItem.setPart(autoPart);
         cartItem.setQuantity(1);
-        cartItem.setPrice(BigDecimal.valueOf(autoPart.getPrice()));
+        cartItem.setPrice(autoPart.getPrice());
+        cart.setTotalCost(cart.getTotalCost() + cartItem.getPrice());
         cart.getItems().add(cartItem);
         return cartRepository.save(cart);
     }
