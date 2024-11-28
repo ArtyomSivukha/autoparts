@@ -1,5 +1,6 @@
 package com.example.autoparts.service;
 
+import com.example.autoparts.advice.exception.AutoPartNotFoundException;
 import com.example.autoparts.controller.UserController;
 import com.example.autoparts.model.AutoPart;
 import com.example.autoparts.model.Cart;
@@ -34,7 +35,8 @@ public class CartService {
     public Cart addCartItem(Long autoPartId) {
         CartItem cartItem = new CartItem();
         Cart cart = userService.getCurrent().getCart();
-        AutoPart autoPart = autoPartRepository.findById(autoPartId).get();
+        AutoPart autoPart = autoPartRepository.findById(autoPartId)
+                .orElseThrow(() -> new AutoPartNotFoundException(autoPartId));
         cartItem.setCart(cart);
         cartItem.setPart(autoPart);
         cartItem.setQuantity(1);
@@ -49,7 +51,7 @@ public class CartService {
         CartItem itemToDelete = cart.getItems().stream()
                 .filter(item -> item.getCartItemId().equals(cartItemId))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("В корзине отсутствует"));
+                .orElseThrow(() -> new AutoPartNotFoundException(cartItemId));
 
         Float itemCost = itemToDelete.getPart().getPrice() * itemToDelete.getQuantity();
         cart.setTotalCost(cart.getTotalCost() - itemCost);

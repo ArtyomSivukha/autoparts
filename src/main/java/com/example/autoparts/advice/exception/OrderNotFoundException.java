@@ -2,10 +2,9 @@ package com.example.autoparts.advice.exception;
 
 import lombok.Data;
 
-@Data
-public class OrderNotFoundException extends RuntimeException {
-    private Long id;
+public class OrderNotFoundException extends NotFoundException {
+
     public OrderNotFoundException(Long id) {
-        this.id = id;
+        super(id);
     }
 }
