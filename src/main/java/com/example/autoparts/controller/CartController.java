@@ -23,12 +23,12 @@ public class CartController {
         return new ResponseEntity<>(cartService.getCart(), HttpStatus.OK);
     }
     @PostMapping("/add")
-    public ResponseEntity<?> addCartItem(@RequestParam Long autoPartId) {
-        return new ResponseEntity<>(cartService.addCartItem(autoPartId), HttpStatus.OK);
+    public ResponseEntity<?> addCartItem(@RequestParam Long cartItemId) {
+        return new ResponseEntity<>(cartService.addCartItem(cartItemId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{autoPartID}")
-    public ResponseEntity<?> deleteCartItem(@PathVariable Long autoPartID) {
-        return new ResponseEntity<>(cartService.deleteCartItem(autoPartID), HttpStatus.OK);
+    @DeleteMapping("/delete/{cartItemId}")
+    public ResponseEntity<?> deleteCartItem(@PathVariable Long cartItemId) {
+        return new ResponseEntity<>(cartService.deleteCartItem(cartItemId), HttpStatus.OK);
     }
 }

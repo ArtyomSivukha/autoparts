@@ -1,6 +1,7 @@
 package com.example.autoparts.advice;
 
 import com.example.autoparts.advice.exception.AutoPartNotFoundException;
+import com.example.autoparts.advice.exception.NotFoundException;
 import com.example.autoparts.advice.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +13,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> handleNullPointerException(NullPointerException ex) {
-        return new ResponseEntity<>("Null pointer exception occurred: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("NULL POINTER: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleNullPointerException(UserNotFoundException ex) {
-        return new ResponseEntity<>("Пользовтель не найден с id: " + ex.getId(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(AutoPartNotFoundException.class)
-    public ResponseEntity<?> handleNullPointerException(AutoPartNotFoundException ex) {
-        return new ResponseEntity<>("Деталь не найдена с id: " + ex.getId(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundException(NotFoundException ex) {
+        return new ResponseEntity<>("Ничего с не найдено с id: " + ex.getId(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAllExceptions(Exception ex) {
-        return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Ошибка: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

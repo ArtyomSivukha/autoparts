@@ -1,15 +1,10 @@
 package com.example.autoparts.controller;
 
-import com.example.autoparts.model.Cart;
-import com.example.autoparts.model.Order;
 import com.example.autoparts.service.OrderService;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Data
@@ -28,9 +23,9 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getAllCurrent(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-        return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
+    @GetMapping("/{orderId}")
+    public ResponseEntity<?> getOneById(@PathVariable Long orderId) {
+        return new ResponseEntity<>(orderService.getOneById(orderId), HttpStatus.OK);
     }
 
     @PostMapping("/create")

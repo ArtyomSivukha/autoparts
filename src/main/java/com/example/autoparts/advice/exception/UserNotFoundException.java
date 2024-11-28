@@ -2,10 +2,9 @@ package com.example.autoparts.advice.exception;
 
 import lombok.Data;
 
-@Data
-public class UserNotFoundException extends RuntimeException {
-    private Long id;
+public class UserNotFoundException extends NotFoundException {
+
     public UserNotFoundException(Long id) {
-        this.id = id;
+        super(id);
     }
 }
